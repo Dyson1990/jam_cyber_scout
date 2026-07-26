@@ -12,7 +12,7 @@ import os
 # 在 GitHub Secrets 里设置 PUSHPLUS_TOKEN，本地测试设环境变量
 # PushPlus 官网: https://www.pushplus.plus
 # ============================================================
-PUSHPLUS_TOKEN = os.getenv("PUSHPLUS_TOKEN", "")
+PUSHPLUS_TOKEN = os.getenv("PUSHPLUS_TOKEN", "f14fa661a6694c0f9fad82cd4ebe920e")
 
 # ============================================================
 # Eden Crawler 相关
