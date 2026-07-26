@@ -27,18 +27,12 @@ jobs:
 
     steps:
       # ============================================================
-      # Step 1: Checkout 两个仓库
+      # Step 1: Checkout 项目（含 submodule）
       # ============================================================
-      - name: Checkout jam_cyber_scout（本项目）
-        uses: actions/checkout@v4
-
-      - name: Checkout jam_eden_crawler（爬虫引擎，独立仓库）
+      - name: Checkout jam_cyber_scout
         uses: actions/checkout@v4
         with:
-          repository: Dyson1990/jam_eden_crawler
-          path: eden_crawler
-          # ref: main  # 默认就是 main，可改为指定分支/标签
-          # 每次 workflow 运行都会拉取该仓库的最新 commit
+          submodules: true
 
       # ============================================================
       # Step 2: 设置 Python 环境
@@ -57,7 +51,7 @@ jobs:
           sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev
 
       - name: Install Eden Crawler 依赖
-        run: pip install -r eden_crawler/requirements.txt
+        run: pip install -r app/eden_crawler/requirements.txt
 
       - name: Install jam_cyber_scout 依赖
         run: pip install -r requirements.txt
@@ -79,7 +73,7 @@ jobs:
       # ============================================================
       - name: Run Eden Crawler spiders
         run: |
-          cd eden_crawler
+          cd app/eden_crawler
           # 列出可用的 spider
           scrapy list
           # 运行所有 spider（或指定具体 spider 名称）

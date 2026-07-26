@@ -1,10 +1,12 @@
 """
 PushPlus 推送模块
 ==================
-PushPlus API: GET https://www.pushplus.plus/send
+PushPlus API: POST http://www.pushplus.plus/send
 """
 
+import json
 import logging
+import time
 
 import requests
 
@@ -12,37 +14,51 @@ from config import PUSHPLUS_TOKEN
 
 logger = logging.getLogger(__name__)
 
-API_URL = "https://www.pushplus.plus/send"
+API_URL = "http://www.pushplus.plus/send"
 
 
 def send(title: str, content: str, template: str = "html") -> bool:
-    """推送消息到微信。"""
+    """推送消息到微信。504 时等待 10 分钟后重试一次。"""
     if not PUSHPLUS_TOKEN:
         logger.warning("PUSHPLUS_TOKEN 未设置，跳过推送")
         return False
 
-    try:
-        r = requests.get(
-            API_URL,
-            params={
-                "token": PUSHPLUS_TOKEN,
-                "title": title,
-                "content": content,
-                "template": template,
-            },
-            timeout=15,
-        )
-        result = r.json()
-        code = result.get("code", -1)
-        if code == 200:
-            logger.info(f"PushPlus 推送成功: {title}")
-            return True
-        else:
-            logger.error(f"PushPlus 返回错误: code={code}, msg={result.get('msg')}")
-            return False
-    except requests.RequestException as e:
-        logger.error(f"PushPlus 请求失败: {e}")
-        return False
+    payload = {
+        "token": PUSHPLUS_TOKEN,
+        "title": title,
+        "content": content,
+        "template": template,
+    }
+    body = json.dumps(payload).encode(encoding="utf-8")
+    headers = {"Content-Type": "application/json"}
+
+    for attempt in (1, 2):
+        try:
+            resp = requests.post(API_URL, data=body, headers=headers, timeout=15)
+            if resp.status_code == 200:
+                result = resp.json()
+                code = result.get("code", -1)
+                if code == 200:
+                    logger.info(f"PushPlus 推送成功: {title}")
+                    return True
+                else:
+                    logger.error(f"PushPlus 返回错误: code={code}, msg={result.get('msg')}")
+                    return False
+            elif resp.status_code == 504 and attempt == 1:
+                logger.warning("PushPlus 504，等待 10 分钟后重试...")
+                time.sleep(600)
+            else:
+                logger.error(f"PushPlus HTTP {resp.status_code}: {resp.text[:200]}")
+                return False
+        except requests.RequestException as e:
+            if attempt == 1:
+                logger.warning(f"PushPlus 请求失败: {e}，等待 10 分钟后重试...")
+                time.sleep(600)
+            else:
+                logger.error(f"PushPlus 重试仍失败: {e}")
+                return False
+
+    return False
 
 
 def build_alert_message(

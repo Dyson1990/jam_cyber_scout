@@ -12,13 +12,13 @@ import os
 # 在 GitHub Secrets 里设置 PUSHPLUS_TOKEN，本地测试设环境变量
 # PushPlus 官网: https://www.pushplus.plus
 # ============================================================
-PUSHPLUS_TOKEN = os.getenv("PUSHPLUS_TOKEN", "f14fa661a6694c0f9fad82cd4ebe920e")
+PUSHPLUS_TOKEN = os.getenv("PUSHPLUS_TOKEN", "59f91ad736064d97a453528d9ccfdeca")
 
 # ============================================================
 # Eden Crawler 相关
 # ============================================================
 # Eden Crawler 在本 workflow 中的 checkout 路径
-EDEN_CRAWLER_DIR = "eden_crawler"
+EDEN_CRAWLER_DIR = "app/eden_crawler"
 
 # Eden Crawler 的 SQLite 数据库路径（相对于 EDEN_CRAWLER_DIR）
 EDEN_DB_PATH = "data.db"
