@@ -20,4 +20,4 @@ state.json
 *.db
 
 # Eden Crawler (独立仓库，不提交到这里)
-eden_crawler/
+/eden_crawler/
