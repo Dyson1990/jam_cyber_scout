@@ -1,0 +1,106 @@
+name: Cyber Scout
+
+# ============================================================
+# jam_cyber_scout — 定时爬取 + 分析 + 微信推送
+# ============================================================
+# 触发方式:
+#   1. 定时: 每天 UTC 1:00（= 北京时间 9:00）
+#   2. 手动: GitHub Actions → workflow_dispatch → Run workflow
+#
+# 架构:
+#   Checkout jam_cyber_scout + jam_eden_crawler (独立仓库)
+#   → 安装依赖 → 运行 Eden Crawler spider → 运行分析 + 推送
+# ============================================================
+
+on:
+  schedule:
+    # 每天北京时间 9:00（UTC 1:00）
+    # cron 使用 UTC 时间，北京时间 = UTC + 8
+    - cron: "0 1 * * *"
+
+  workflow_dispatch:
+    # 允许在 GitHub 网页上手动触发
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ============================================================
+      # Step 1: Checkout 两个仓库
+      # ============================================================
+      - name: Checkout jam_cyber_scout（本项目）
+        uses: actions/checkout@v4
+
+      - name: Checkout jam_eden_crawler（爬虫引擎，独立仓库）
+        uses: actions/checkout@v4
+        with:
+          repository: Dyson1990/jam_eden_crawler
+          path: eden_crawler
+          # ref: main  # 默认就是 main，可改为指定分支/标签
+          # 每次 workflow 运行都会拉取该仓库的最新 commit
+
+      # ============================================================
+      # Step 2: 设置 Python 环境
+      # ============================================================
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # ============================================================
+      # Step 3: 安装依赖
+      # ============================================================
+      - name: Install system dependencies（curl_cffi 等需要）
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev
+
+      - name: Install Eden Crawler 依赖
+        run: pip install -r eden_crawler/requirements.txt
+
+      - name: Install jam_cyber_scout 依赖
+        run: pip install -r requirements.txt
+
+      # ============================================================
+      # Step 4: 恢复上次运行状态（GitHub Cache）
+      # ============================================================
+      - name: Restore previous state
+        uses: actions/cache/restore@v4
+        id: cache-state
+        with:
+          path: state.json
+          key: scout-state
+          # 如果精确 key 未命中，用 prefix 匹配找到最近的缓存
+          # 注意: 如果 cache 超过 7 天未访问会被自动清理，此时 miss 当首次运行
+
+      # ============================================================
+      # Step 5: 运行爬虫
+      # ============================================================
+      - name: Run Eden Crawler spiders
+        run: |
+          cd eden_crawler
+          # 列出可用的 spider
+          scrapy list
+          # 运行所有 spider（或指定具体 spider 名称）
+          # TODO: 替换为实际的 spider 名称
+          # scrapy crawl your_spider_name
+          echo "请先在 Eden Crawler 中添加目标 spider，然后修改此步骤"
+
+      # ============================================================
+      # Step 6: 分析 + 推送
+      # ============================================================
+      - name: Analyze and notify
+        env:
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+        run: python main.py
+
+      # ============================================================
+      # Step 7: 保存本次状态
+      # ============================================================
+      - name: Save state for next run
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: state.json
+          key: scout-state-${{ github.run_id }}
