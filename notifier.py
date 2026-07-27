@@ -81,12 +81,23 @@ def build_alert_message(
     if sample_items:
         lines.append("<h3>📋 样例</h3><ul>")
         for i, item in enumerate(sample_items[:5], 1):
-            name = item.get("name", f"条目 #{i}")
-            url = item.get("url", "")
-            if url:
-                lines.append(f'<li><a href="{url}">{name}</a></li>')
+            # IP 类数据特殊展示
+            if "ip" in item:
+                ip = item.get("ip", "")
+                country = item.get("country", "")
+                city = item.get("city", "")
+                org = item.get("org", "")
+                lines.append(
+                    f"<li><b>{ip}</b> — {country} {city}<br>"
+                    f"<small>ISP: {org}</small></li>"
+                )
             else:
-                lines.append(f"<li>{name}</li>")
+                name = item.get("name", f"条目 #{i}")
+                url = item.get("url", "")
+                if url:
+                    lines.append(f'<li><a href="{url}">{name}</a></li>')
+                else:
+                    lines.append(f"<li>{name}</li>")
         lines.append("</ul>")
 
     return "\n".join(lines)

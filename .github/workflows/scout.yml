@@ -74,7 +74,7 @@ jobs:
       - name: Run Eden Crawler spiders
         run: |
           cd app/eden_crawler
-          scrapy crawl ip
+          scrapy crawl ip_check
 
       # ============================================================
       # Step 6: 分析 + 推送
