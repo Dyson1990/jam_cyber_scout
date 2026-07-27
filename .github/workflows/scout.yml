@@ -74,12 +74,7 @@ jobs:
       - name: Run Eden Crawler spiders
         run: |
           cd app/eden_crawler
-          # 列出可用的 spider
-          scrapy list
-          # 运行所有 spider（或指定具体 spider 名称）
-          # TODO: 替换为实际的 spider 名称
-          # scrapy crawl your_spider_name
-          echo "请先在 Eden Crawler 中添加目标 spider，然后修改此步骤"
+          scrapy crawl ip
 
       # ============================================================
       # Step 6: 分析 + 推送
