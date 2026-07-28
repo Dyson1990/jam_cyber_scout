@@ -38,7 +38,7 @@ def main():
 
     pipeline = Pipeline()
     for name, args in stages:
-        cmd = [sys.executable, "-m", f"apps.{name}.main"] + args
+        cmd = [sys.executable, "-m", f"apps.{name}.entry"] + args
         pipeline.add(name, cmd)
 
     asyncio.run(pipeline.run())
