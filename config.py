@@ -20,23 +20,23 @@ jobs = {
     "movie_scout": [
         ("scrapy_app", ["movie"]),
         ("analyzer_app", []),
-        ("notifier", []),
+        ("pushplus", []),
     ],
     "news_scout": [
         ("scrapy_app", ["news"]),
         ("analyzer_app", []),
-        ("notifier", []),
+        ("pushplus", []),
     ],
     "car_crawl": [
         ("eden_crawler", ["car"]),
-        ("notifier", []),
+        ("pushplus", []),
     ],
     "ip_crawl": [
         ("eden_crawler", ["ip"]),
-        ("notifier", []),
+        ("pushplus", []),
     ],
     "ip_test_crawl": [
         ("eden_crawler", ["ip_test"]),
-        ("notifier", []),
+        ("pushplus", []),
     ],
 }

@@ -49,15 +49,15 @@ def send(title: str, content: str, template: str = "html") -> bool:
                     print(f"PushPlus 错误: {result.get('msg')}", file=sys.stderr)
                     return False
             elif resp.status_code == 504 and attempt == 1:
-                print("PushPlus 504，10 分钟后重试...", file=sys.stderr)
-                time.sleep(600)
+                print("PushPlus 504，10 秒后重试...", file=sys.stderr)
+                time.sleep(10)
             else:
                 print(f"HTTP {resp.status_code}", file=sys.stderr)
                 return False
         except requests.RequestException as e:
             if attempt == 1:
-                print(f"请求失败: {e}，10 分钟后重试...", file=sys.stderr)
-                time.sleep(600)
+                print(f"请求失败: {e}，10 秒后重试...", file=sys.stderr)
+                time.sleep(10)
             else:
                 print(f"重试仍失败: {e}", file=sys.stderr)
                 return False

@@ -53,10 +53,19 @@ def main():
     # scrapy 项目在 eden_crawler 子目录（即 submodule）
     project_dir = os.path.join(os.path.dirname(__file__), "eden_crawler")
 
-    cmd = [
-        sys.executable, "-m", "scrapy", "crawl", spider,
-        "-o", "-:jsonlines",  # 输出 JSONL 到 stdout
-    ] + extra_args
+    # extra_spiders/ 中的独立 spider 用 runspider，submodule 内的用 crawl
+    extra_dir = os.path.join(os.path.dirname(__file__), "extra_spiders")
+    spider_file = os.path.join(extra_dir, f"{spider}.py")
+    if os.path.isfile(spider_file):
+        cmd = [
+            sys.executable, "-m", "scrapy", "runspider", spider_file,
+            "-o", "-:jsonlines",
+        ] + extra_args
+    else:
+        cmd = [
+            sys.executable, "-m", "scrapy", "crawl", spider,
+            "-o", "-:jsonlines",
+        ] + extra_args
 
     proc = subprocess.run(cmd, cwd=project_dir)
     sys.exit(proc.returncode)
