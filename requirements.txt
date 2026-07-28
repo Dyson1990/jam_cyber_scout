@@ -1,5 +1,6 @@
-# jam_cyber_scout
-# 仅包含主项目依赖（调度 + 分析 + 推送）
-# Eden Crawler 的依赖由它自己的 requirements.txt 管理
-
-requests>=2.31.0
+scrapy>=2.11.0
+h2>=4.1.0
+httpx>=0.27.0
+curl_cffi>=0.7.0
+zstd>=1.5.5
+requests>=2.28
