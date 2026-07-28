@@ -1,3 +1,3 @@
-[submodule "app/eden_crawler"]
-	path = app/eden_crawler
+[submodule "apps/eden_crawler/eden_crawler"]
+	path = apps/eden_crawler/eden_crawler
 	url = git@github.com:Dyson1990/jam_eden_crawler.git

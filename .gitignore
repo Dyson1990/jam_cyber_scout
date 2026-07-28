@@ -19,5 +19,5 @@ Thumbs.db
 state.json
 *.db
 
-# Eden Crawler (独立仓库，不提交到这里)
-/eden_crawler/
+# Eden Crawler (submodule，不需要单独 ignore)
+# /apps/eden_crawler/eden_crawler/
