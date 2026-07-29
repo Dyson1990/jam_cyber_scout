@@ -26,7 +26,7 @@ jobs:
           sudo apt-get install -y -qq libcurl4-openssl-dev libssl-dev
 
       - name: Install Eden Crawler deps
-        run: pip install -r app/eden_crawler/requirements.txt
+        run: pip install -r apps/eden_crawler/eden_crawler/requirements.txt
 
       - name: Install jam_cyber_scout deps
         run: pip install -r requirements.txt
