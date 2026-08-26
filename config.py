@@ -39,4 +39,14 @@ jobs = {
         ("eden_crawler", ["ip_test"]),
         ("pushplus", []),
     ],
+    "plant_remind": [
+        ("plant_keeper", ["remind"]),
+        ("feishu", []),
+        ("plant_keeper", ["apply"]),
+    ],
+    "plant_update": [
+        ("plant_keeper", ["check"]),
+        ("feishu", []),
+        ("plant_keeper", ["apply"]),
+    ],
 }
