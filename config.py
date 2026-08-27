@@ -49,4 +49,8 @@ jobs = {
         ("feishu", []),
         ("plant_keeper", ["apply"]),
     ],
+    "deepseek_summary": [
+        ("eden_crawler", ["car"]),
+        ("deepseek", []),
+    ],
 }
