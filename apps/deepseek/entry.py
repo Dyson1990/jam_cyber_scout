@@ -3,7 +3,9 @@
 数据契约：每行一个 JSON，取 prompt/text 字段作为提问（缺省则总结整条），
 输出在原 JSON 上追加 reply 字段。
 
-用法: python -m apps.deepseek.entry
+作为首个 App（无 stdin 输入）时，用 args 拼成提问。
+
+用法: python -m apps.deepseek.entry [提问...]
 环境变量: DEEPSEEK_API_KEY
 """
 
@@ -27,16 +29,21 @@ def main() -> int:
 
     llm = ChatDeepSeek(model="deepseek-chat", api_key=api_key)
 
+    items: list[dict] = []
     for line in sys.stdin:
         line = line.strip()
         if not line:
             continue
         try:
-            item = json.loads(line)
+            items.append(json.loads(line))
         except json.JSONDecodeError:
             print(f"[deepseek] 跳过无效 JSON: {line[:80]}", file=sys.stderr)
-            continue
 
+    # 首个 App 无 stdin 输入时，把 args 当作提问
+    if not items and len(sys.argv) > 1:
+        items = [{"prompt": " ".join(sys.argv[1:])}]
+
+    for item in items:
         prompt = item.get("prompt") or item.get("text")
         if not prompt:
             prompt = f"用一句话总结：{json.dumps(item, ensure_ascii=False)}"
