@@ -28,6 +28,8 @@ def _build_env() -> dict[str, str]:
 
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
+    # 关闭子进程输出缓冲，崩溃时日志不丢失
+    env["PYTHONUNBUFFERED"] = "1"
 
     if sys.platform == "win32":
         if _win_env_cache is None:
@@ -88,7 +90,9 @@ class AppProcess:
             env=env,
         )
 
-        # 并行处理：喂 stdin + 读 stdout + 读 stderr
+        app_tag = self.cmd[-1] if len(self.cmd) > 1 else self.cmd[0]
+
+        # 并行处理：喂 stdin + 读 stdout + 流式转发 stderr
         async def feed_stdin() -> None:
             if proc.stdin and input_data:
                 text = "\n".join(
@@ -108,14 +112,19 @@ class AppProcess:
                     try:
                         items.append(json.loads(line))
                     except json.JSONDecodeError:
-                        logger.warning(f"[{self.cmd[0]}] 跳过无效 JSONL: {line[:80]}")
+                        logger.warning(f"[{app_tag}] 跳过无效 JSONL: {line[:80]}")
             return items
 
         async def read_stderr() -> str:
+            # 逐行实时转发到 logger，同时累积完整内容用于失败时抛出
+            lines: list[str] = []
             if proc.stderr:
-                data = await proc.stderr.read()
-                return data.decode("utf-8", errors="replace")
-            return ""
+                async for line in proc.stderr:
+                    text = line.decode("utf-8", errors="replace").rstrip()
+                    if text:
+                        logger.info(f"[{app_tag}] {text}")
+                        lines.append(text)
+            return "\n".join(lines)
 
         results = await asyncio.gather(
             feed_stdin(),
@@ -128,14 +137,9 @@ class AppProcess:
         output: list[dict[str, Any]] = results[1]
         stderr_text: str = results[2]
 
-        if stderr_text:
-            app_tag = self.cmd[-1] if len(self.cmd) > 1 else self.cmd[0]
-            for line in stderr_text.strip().split("\n"):
-                logger.info(f"[{app_tag}] {line}")
-
         if self.returncode != 0:
             raise RuntimeError(
-                f"App '{' '.join(self.cmd)}' 退出码: {self.returncode}\nstderr: {stderr_text[:500]}"
+                f"App '{' '.join(self.cmd)}' 退出码: {self.returncode}\n--- stderr ---\n{stderr_text}"
             )
 
         return output

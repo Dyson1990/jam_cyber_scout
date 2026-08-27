@@ -41,7 +41,12 @@ def main():
         cmd = [sys.executable, "-m", f"apps.{name}.entry"] + args
         pipeline.add(name, cmd)
 
-    asyncio.run(pipeline.run())
+    try:
+        asyncio.run(pipeline.run())
+    except RuntimeError as e:
+        # App 失败时，完整错误已在 process.py 中打印，这里只保证非 0 退出码
+        logging.error(str(e))
+        sys.exit(1)
 
 
 if __name__ == "__main__":
