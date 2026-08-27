@@ -7,7 +7,6 @@
 """
 
 import json
-import os
 import sys
 from datetime import datetime, timezone
 
@@ -20,9 +19,10 @@ if hasattr(sys.stdout, "reconfigure"):
 
 
 def remind() -> int:
-    chat_id = os.getenv("FEISHU_CHAT_ID", "")
+    settings = state.load("settings.json")
+    chat_id = settings.get("feishu_chat_id", "")
     if not chat_id:
-        print("缺少 FEISHU_CHAT_ID 环境变量", file=sys.stderr)
+        print("缺少 feishu_chat_id 配置", file=sys.stderr)
         return 1
 
     species = state.load("species.json")

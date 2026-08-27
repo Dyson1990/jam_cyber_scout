@@ -2,7 +2,7 @@ name: Cyber Scout
 
 on:
   schedule:
-    - cron: "0 1 * * *"  # 北京时间 9:00
+    - cron: "0 1 * * 0"  # 每周日 09:00（北京时间，UTC+8）
   workflow_dispatch:
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
       - name: Install jam_cyber_scout deps
         run: pip install -r requirements.txt
 
-      - name: Run scout
+      - name: Run weather
         env:
-          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
-        run: python main.py
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+        run: python main.py weather

@@ -81,7 +81,42 @@ def list_chats() -> list[dict]:
     return data.get("data", {}).get("items", [])
 
 
+def send_webhook(hook: str, text: str) -> None:
+    """群机器人 webhook 发文本消息，无需自建应用 token。"""
+    resp = requests.post(hook, json={"msg_type": "text", "content": {"text": text}}, timeout=15)
+    data = resp.json()
+    if data.get("code") != 0:
+        raise RuntimeError(f"webhook 发送失败: {data}")
+
+
+def webhook_main(hook: str) -> int:
+    """webhook 模式：读 stdin 的 {title, content} 消息，逐条发送。"""
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError:
+            print(f"feishu 跳过无效 JSON: {line[:80]}", file=sys.stderr)
+            continue
+        title = item.get("title", "")
+        content = item.get("content") or item.get("text") or ""
+        text = f"{title}\n{content}" if title else content
+        try:
+            send_webhook(hook, text)
+        except RuntimeError as e:
+            print(f"feishu webhook 失败: {e}", file=sys.stderr)
+        sys.stdout.flush()
+    return 0
+
+
 def main() -> int:
+    # webhook 地址是配置（env），配置了就发群机器人；否则走自建应用
+    hook = os.getenv("FEISHU_WEBHOOK", "")
+    if hook:
+        return webhook_main(hook)
+
     if "--list-chats" in sys.argv:
         try:
             for c in list_chats():

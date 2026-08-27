@@ -10,7 +10,6 @@ import logging
 import os
 import subprocess
 import sys
-from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -56,29 +55,25 @@ def _build_env() -> dict[str, str]:
 class AppProcess:
     """封装一个 App 子进程的完整生命周期。
 
-    - 通过 stdin 将输入 JSONL 喂给子进程
-    - 从 stdout 逐行收集 JSONL 输出
+    - 通过 stdin 将输入 Item 序列化为 JSONL 喂给子进程
+    - 从 stdout 逐行收集原始 JSONL 字符串（Item 校验交给 Pipeline）
     - 监控 exit code 判定成功/失败
     """
 
     def __init__(self, cmd: list[str]):
-        """
-        Args:
-            cmd: 启动 App 的命令行，例如 ["python", "scrapy_app/main.py", "movie"]
-        """
         self.cmd = cmd
         self.returncode: int | None = None
 
-    async def run(self, input_data: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
-        """启动子进程，传入数据，返回收集的 JSONL 输出。
+    async def run(self, input_items: list | None = None) -> list[str]:
+        """启动子进程，传入数据，返回 stdout 原始 JSONL 行列表。
 
         Args:
-            input_data: 要传入 stdin 的 JSONL 数据，None 表示无输入
+            input_items: 要传入的 Item 列表（有 dumps() 方法），None 表示无输入
 
         Returns:
-            子进程 stdout 产出的 JSONL 数据列表
+            子进程 stdout 产出的原始行列表（去空白、去空行，不解析）
         """
-        stdin_arg = asyncio.subprocess.PIPE if input_data else None
+        stdin_arg = asyncio.subprocess.PIPE if input_items else None
 
         env = _build_env()
 
@@ -92,31 +87,27 @@ class AppProcess:
 
         app_tag = self.cmd[-1] if len(self.cmd) > 1 else self.cmd[0]
 
-        # 并行处理：喂 stdin + 读 stdout + 流式转发 stderr
         async def feed_stdin() -> None:
-            if proc.stdin and input_data:
+            if proc.stdin and input_items:
                 text = "\n".join(
-                    json.dumps(item, ensure_ascii=False) for item in input_data
+                    (item.dumps() if hasattr(item, "dumps")
+                     else json.dumps(item, ensure_ascii=False))
+                    for item in input_items
                 ) + "\n"
                 proc.stdin.write(text.encode("utf-8"))
                 await proc.stdin.drain()
                 proc.stdin.close()
 
-        async def read_stdout() -> list[dict[str, Any]]:
-            items: list[dict[str, Any]] = []
+        async def read_stdout() -> list[str]:
+            lines: list[str] = []
             if proc.stdout:
                 async for line in proc.stdout:
                     line = line.decode("utf-8", errors="replace").strip()
-                    if not line:
-                        continue
-                    try:
-                        items.append(json.loads(line))
-                    except json.JSONDecodeError:
-                        logger.warning(f"[{app_tag}] 跳过无效 JSONL: {line[:80]}")
-            return items
+                    if line:
+                        lines.append(line)
+            return lines
 
         async def read_stderr() -> str:
-            # 逐行实时转发到 logger，同时累积完整内容用于失败时抛出
             lines: list[str] = []
             if proc.stderr:
                 async for line in proc.stderr:
@@ -134,7 +125,7 @@ class AppProcess:
         )
 
         self.returncode = results[3]
-        output: list[dict[str, Any]] = results[1]
+        output: list[str] = results[1]
         stderr_text: str = results[2]
 
         if self.returncode != 0:
