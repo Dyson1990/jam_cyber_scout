@@ -12,9 +12,9 @@
       "id": "c1",
       "species": "clivia",
       "plan": "p20",
-      "last_watered": null,
-      "remind_status": "waiting_confirm",
-      "pending_ref": "om_x100b67c54ce008a0b32854207c72905"
+      "last_watered": "2026-08-27T13:14:42.934000+00:00",
+      "remind_status": "idle",
+      "pending_ref": null
     },
     {
       "id": "r1",
