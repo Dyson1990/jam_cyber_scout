@@ -1,4 +1,4 @@
-"""plant_remind 业务流：检查到期植物 → feishu 发提醒 → 回写状态。"""
+"""plant_remind 业务流：检查到期浇水/施肥/调参 → feishu 发提醒 → 回写状态。"""
 
 from dataclasses import dataclass
 

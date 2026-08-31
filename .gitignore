@@ -16,6 +16,7 @@ Thumbs.db
 
 # Runtime
 state.json
+!apps/plant_keeper/state.json
 *.db
 
 # Eden Crawler (submodule，不需要单独 ignore)
