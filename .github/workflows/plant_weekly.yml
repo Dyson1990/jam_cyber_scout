@@ -1,0 +1,81 @@
+name: Plant Weekly
+
+on:
+  schedule:
+    - cron: "0 4 * * 6"  # 每周六 12:00（北京时间，UTC+8）
+  workflow_dispatch:
+
+# 与 plant_daily 共用同一个并发组，串行读写 state.json，避免并发提交冲突
+concurrency:
+  group: plant-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  plant_plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run plant_plan
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          BITABLE_APP_ID: ${{ secrets.BITABLE_APP_ID }}
+          BITABLE_APP_SECRET: ${{ secrets.BITABLE_APP_SECRET }}
+        run: python main.py plant_plan
+
+      - name: Commit state
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add apps/plant_keeper/state.json
+          git diff --cached --quiet || git commit -m "chore(plant): weekly plan"
+          git push
+
+  plant_remind:
+    needs: plant_plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run plant_remind
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          BITABLE_APP_ID: ${{ secrets.BITABLE_APP_ID }}
+          BITABLE_APP_SECRET: ${{ secrets.BITABLE_APP_SECRET }}
+        run: python main.py plant_remind
+
+      - name: Commit state
+        if: ${{ !cancelled() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add apps/plant_keeper/state.json
+          git diff --cached --quiet || git commit -m "chore(plant): weekly remind"
+          git push

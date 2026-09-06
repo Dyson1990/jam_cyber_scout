@@ -1,6 +1,6 @@
 # plant_keeper
 
-植物养护业务，所有状态集中在 `state.json`。阶段用 args 区分：
+植物养护业务，数据源为飞书多维表格（Bitable），`state.json` 仅作备份。阶段用 args 区分：
 
 - `plan`: 汇总植物/肥料/浇水器信息生成询问 AI 的 prompt，输出 `{prompt}`
 - `apply_plan`: 读 deepseek 返回的计划 JSON，回写 `state.json`；无输出
@@ -13,4 +13,5 @@
 - `buy_fertilizer`: 待购肥料清单
 - `device`: 浇水器当前参数 + AI 建议参数 + 确认状态
 - `fertilizers`: 肥料库存，`record_type` 为 `barcode` 或 `name`
-- `feishu_chat_id`: 提醒目标群
+- 业务参数（`feishu_chat_id`、bitable app_token）内联在各 `jobs/*.py`，不在本文件
+- 数据流：job 开头 `bitable load` 拉 Bitable「状态」表回写本文件 → plant_keeper 处理 → 末尾 `bitable save` 写回并刷新视图
