@@ -2,7 +2,7 @@
 
 import json
 import sys
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 from apps.plant_keeper import schedule, state
 
@@ -30,7 +30,6 @@ def apply() -> int:
     by_id = {p["id"]: p for p in s["plants"]}
     changed = False
     now = datetime.now(timezone.utc)
-    today = date.today()
 
     for line in sys.stdin:
         line = line.strip()
@@ -65,14 +64,19 @@ def apply() -> int:
             plant["pending_ref"] = res.get("message_id")
             changed = True
         elif res.get("op") == "checked" and res.get("reacted"):
-            interval = plant.get("interval_days", 7)
-            fert_interval = plant.get("fertilize_interval_days", 30)
-            if (not plant.get("auto_water")) and schedule.water_due(plant, interval):
+            hist = s.setdefault("history", [])
+            if (not plant.get("auto_water")) and schedule.water_due(plant):
                 plant["last_watered"] = now.isoformat()
-                plant["next_water"] = (today + timedelta(days=interval)).isoformat()
-            if schedule.fertilize_due(plant, fert_interval):
+                plant["next_water"] = None
+                hist.append({"time": now.isoformat(), "plant_id": ref, "plant_name": plant.get("name"), "action": "water"})
+            if schedule.fertilize_due(plant):
                 plant.setdefault("fertilize_history", []).append(now.isoformat())
-                plant["next_fertilize"] = (today + timedelta(days=fert_interval)).isoformat()
+                plant["next_fertilize"] = None
+                # 施肥即浇水：手动植物施肥当天同时算浇过水
+                if not plant.get("auto_water"):
+                    plant["last_watered"] = now.isoformat()
+                    plant["next_water"] = None
+                hist.append({"time": now.isoformat(), "plant_id": ref, "plant_name": plant.get("name"), "action": "fertilize"})
             plant["remind_status"] = "idle"
             plant["pending_ref"] = None
             changed = True
