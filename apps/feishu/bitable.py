@@ -281,7 +281,7 @@ def main() -> int:
     try:
         if "load" in sys.argv:
             return _load(_arg("load"))
-        return _save(_arg("bitable"))
+        return _save(_arg("save"))
     except Exception as e:
         print(f"[bitable] 同步失败: {e}", file=sys.stderr)
         return 1
