@@ -9,16 +9,16 @@
       "auto_water": false,
       "last_watered": null,
       "fertilize_history": [],
-      "next_water": "2026-09-02",
-      "next_fertilize": "2026-09-02",
-      "fertilizer_use": "取花多多10号1克兑1000ml水，沿储水盆倒入，每盆100ml，使根系吸收，剩余肥液可保存下次使用，施肥当日替代换水。",
+      "next_water": "2026-09-12",
+      "next_fertilize": "2026-09-12",
+      "fertilizer_use": "通用型水溶肥3g兑满1000ml，取300ml沿半水培储水盆内壁倒入，让根系吸收，剩余肥液可弃去",
       "care_note": [
         "2026-09",
         "半水培绿萝喜明亮散射光，避免强光直射；保持环境温度20-30℃，通风良好；储水盆水位降低后及时补水，每6-7天换水一次；空气干燥时可向叶面喷雾增湿；每月施高氮肥1次；适当修剪过长老枝，保持株形；检查叶背有无红蜘蛛，发现时用湿布擦拭并增加通风。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "绿萝处于营养生长期，需氮为主促进叶蔓生长，花多多10号氮磷钾30-10-10符合需求。"
+      "fertilize_reason": "杭州9月气温适宜，绿萝处于营养生长期，需氮磷钾均衡肥料促进枝叶生长，现有通用型水溶肥符合需求"
     },
     {
       "id": "c1",
@@ -29,16 +29,16 @@
       "auto_water": false,
       "last_watered": null,
       "fertilize_history": [],
-      "next_water": "2026-09-02",
-      "next_fertilize": "2026-09-02",
-      "fertilizer_use": "取山明通用型1克兑1000ml水，沿盆边缓慢浇灌，每盆100ml，施肥当天不另浇水。",
+      "next_water": "2026-09-12",
+      "next_fertilize": "2026-09-12",
+      "fertilizer_use": "花多多10号2g兑满1000ml，取200ml沿盆边缓慢浇入，避免浇到叶心",
       "care_note": [
         "2026-09",
         "君子兰9月进入生长旺盛期，喜散射光，避免暴晒；适宜温度18-25℃，注意昼夜温差；盆土干透浇透，忌积水；每月施稀薄肥1次（可于9月下旬进行）；保持叶面清洁，可用湿布擦拭；注意通风，预防叶斑病；若出现夹箭，可适当增加温差促进抽箭。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "君子兰处于营养生长期，通用均衡肥可全面补充氮磷钾及中微量元素，促进叶片生长与根系健壮。"
+      "fertilize_reason": "9月君子兰结束夏季半休眠进入营养生长期，需高氮肥促进叶片生长，花多多10号氮磷钾30-10-10适合"
     },
     {
       "id": "r1",
@@ -49,16 +49,16 @@
       "auto_water": false,
       "last_watered": null,
       "fertilize_history": [],
-      "next_water": "2026-09-02",
-      "next_fertilize": "2026-09-02",
-      "fertilizer_use": "取磷酸二氢钾0.5克兑1000ml水，沿盆边浇灌，每盆100ml，每隔10天一次，本月施肥1次。",
+      "next_water": "2026-09-12",
+      "next_fertilize": "2026-09-12",
+      "fertilizer_use": "磷酸二氢钾1g兑满1000ml，取150ml沿盆边浇灌，花期前促进花芽分化",
       "care_note": [
         "2026-09",
         "沙漠玫瑰喜充足阳光，但杭州9月午后仍烈，可稍遮荫；盆土宁干勿湿，浇水间隔5-7天，确保土壤完全干透；保持良好通风；不需频繁施肥，可于9月末施一次稀薄磷钾肥；检查有无介壳虫，发现时用酒精棉擦除；花期后适当修剪残枝，促进分枝。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "沙漠玫瑰9月仍处花期或孕蕾，需磷钾肥促进开花与抗性，磷酸二氢钾提供高磷钾。"
+      "fertilize_reason": "沙漠玫瑰9月处于孕蕾开花期，需磷钾肥促花，磷酸二氢钾符合需求"
     },
     {
       "id": "gdn1",
@@ -71,16 +71,16 @@
       "fertilize_history": [
         "2026-09-02T14:00:00+00:00"
       ],
-      "next_water": null,
-      "next_fertilize": null,
-      "fertilizer_use": "取硫酸亚铁颗粒2克撒于盆土表面，再取山明通用型1克兑1000ml水沿盆边浇透，每盆200ml，同时补充铁和均衡养分。",
+      "next_water": "2026-09-15",
+      "next_fertilize": "2026-09-20",
+      "fertilizer_use": "磷酸二氢钾1g兑满1000ml，取200ml沿盆边浇灌",
       "care_note": [
         "2026-09",
         "栀子花喜酸性土壤，可定期浇矾肥水维持pH；9月日照渐弱，需充足光照促进花芽；保持土壤湿润但忌积水，自动浇水器根据天气调整频率；每月施磷酸二氢钾1-2次；修剪病弱枝、过密枝，促进通风；注意红蜘蛛和蚜虫防治，可喷水增加湿度。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "栀子花9月初仍有零星开花，且喜酸，需磷钾促花及铁元素防黄叶，配以通用肥补充氮磷钾。"
+      "fertilize_reason": "栀子花9月处于花芽分化及孕蕾期，需磷钾肥促进开花，磷酸二氢钾适用；上次施肥为9月2日，间隔约18天再施"
     },
     {
       "id": "p1",
@@ -91,16 +91,16 @@
       "auto_water": true,
       "last_watered": null,
       "fertilize_history": [],
-      "next_water": "2026-09-02",
-      "next_fertilize": "2026-09-02",
-      "fertilizer_use": "取磷酸二氢钾0.5克兑1000ml水，倒入储水盆，每盆100ml，肥液与换水同步完成。",
+      "next_water": "2026-09-19",
+      "next_fertilize": "2026-09-19",
+      "fertilizer_use": "磷酸二氢钾1g兑满1000ml，取200ml倒入半水培储水盆，让自动浇水器补水时稀释吸收",
       "care_note": [
         "2026-09",
         "太阳花喜充足阳光，置于全日照阳台；半水培储水盆保持水位，但避免浸泡太久；每周换水并清洗根系；花期每月施磷钾肥2次；及时修剪残花，促进新枝开花；注意蚜虫危害，可用辣椒水喷洒；保持环境通风，防止烂根。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "太阳花处于盛花期，需磷钾肥维持开花量，磷酸二氢钾无氮避免徒长。"
+      "fertilize_reason": "太阳花9月处于开花期，需磷钾肥维持开花，磷酸二氢钾符合；自动浇水器只浇水，施肥需手动完成"
     },
     {
       "id": "b1",
@@ -111,16 +111,16 @@
       "auto_water": false,
       "last_watered": null,
       "fertilize_history": [],
-      "next_water": "2026-09-02",
-      "next_fertilize": "2026-09-02",
-      "fertilizer_use": "取花多多10号1克兑1000ml水，倒入储水盆，每盆100ml，肥液替代本次换水。",
+      "next_water": "2026-09-12",
+      "next_fertilize": "2026-09-12",
+      "fertilizer_use": "通用型水溶肥3g兑满1000ml，取300ml沿半水培储水盆内壁倒入",
       "care_note": [
         "2026-09",
         "铂金钻喜明亮散射光，忌强光；半水培保持水位，水温与室温一致；每5-6天换水并清洗；空气干燥时叶面喷雾；每月施高氮肥1次；及时剪除枯黄叶；检查叶面斑点，预防炭疽病；保持通风，避免闷热。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "铂金钻处于营养生长期，需氮肥促进新叶生长与叶色，花多多10号高氮配方适宜。"
+      "fertilize_reason": "铂金钻9月处于营养生长期，需均衡肥料促进叶片生长，通用型水溶肥适用"
     },
     {
       "id": "gf1",
@@ -133,16 +133,16 @@
       "fertilize_history": [
         "2026-09-02T14:00:00+00:00"
       ],
-      "next_water": null,
-      "next_fertilize": null,
-      "fertilizer_use": "取山明通用型1克兑1000ml水，倒入储水盆，每盆100ml，与换水同时进行。",
+      "next_water": "2026-09-15",
+      "next_fertilize": "2026-09-20",
+      "fertilizer_use": "磷酸二氢钾1g兑满1000ml，取200ml倒入半水培储水盆",
       "care_note": [
         "2026-09",
         "金鱼吊兰喜半阴，避免阳光直射；半水培保持水位，换水时清洗根系；空气湿度60%左右，可喷水增湿；花蕾期施磷钾肥，每月2次；花后修剪残花，促进再次开花；注意蚜虫和介壳虫，用肥皂水擦除；保持良好通风。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "金鱼吊兰处于营养生长和潜在孕蕾期，通用均衡肥促进整体长势，并含钙镁硫利花芽分化。"
+      "fertilize_reason": "金鱼吊兰9月处于孕蕾开花期，需磷钾肥促花，磷酸二氢钾适用；上次施肥9月2日，间隔约18天"
     },
     {
       "id": "on1",
@@ -153,16 +153,16 @@
       "auto_water": false,
       "last_watered": null,
       "fertilize_history": [],
-      "next_water": "2026-09-02",
-      "next_fertilize": "2026-09-02",
-      "fertilizer_use": "取磷酸二氢钾0.5克兑1000ml水，将苔藓球完全浸润在肥液中10分钟，取出沥干，每盆用肥液约200ml。",
+      "next_water": "2026-09-12",
+      "next_fertilize": "2026-09-12",
+      "fertilizer_use": "花多多10号1g兑满1000ml，将苔藓球浸入肥液中均匀浸润后取出沥干",
       "care_note": [
         "2026-09",
         "文心兰苔藓球种植，喜高湿度，需保持苔藓微湿，每天喷水2-3次；9月花芽分化期，置于明亮散射光处，避免暴晒；保持温度15-25℃；每周施稀薄磷钾肥（可下旬开始）；苔藓球每月用清水浸泡冲洗一次；注意通风，预防根腐；花后及时剪花梗。"
       ],
       "remind_status": "idle",
       "pending_ref": null,
-      "fertilize_reason": "文心兰秋季进入花芽分化期，需高磷钾促进花芽发育，磷酸二氢钾最合适。"
+      "fertilize_reason": "文心兰9月进入营养生长期，需高氮肥促进新芽生长，花多多10号30-10-10适用"
     }
   ],
   "buy_fertilizer": [],
