@@ -27,7 +27,7 @@ def main() -> int:
         print("缺少 DEEPSEEK_API_KEY 环境变量", file=sys.stderr)
         return 1
 
-    llm = ChatDeepSeek(model="deepseek-chat", api_key=api_key)
+    llm = ChatDeepSeek(model="deepseek-v4-flash", api_key=api_key)
 
     items: list[dict] = []
     for line in sys.stdin:
