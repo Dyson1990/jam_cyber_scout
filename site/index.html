@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyber Scout</title>
+<style>
+:root { --bg:#0b0e14; --panel:#131826; --fg:#e6e9f0; --muted:#8a93a6; --accent:#4ff0c8; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; }
+main { max-width:720px; margin:0 auto; padding:40px 20px; }
+h1 { font-size:24px; margin:0 0 4px; }
+.sub { color:var(--muted); font-size:13px; margin-bottom:28px; }
+.wf { background:var(--panel); border:1px solid #222a3d; border-radius:10px; padding:16px 18px; margin-bottom:14px; }
+.wf-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+h2 { font-size:16px; margin:0; }
+.cron { color:var(--muted); font-family:ui-monospace,Consolas,monospace; font-size:12px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.chip { color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:4px 12px; font-size:13px; }
+.empty { color:var(--muted); }
+</style>
+</head>
+<body><main>
+<h1>Cyber Scout</h1>
+<div class="sub">激活的 Job · 更新于 2026-10-04 22:58</div>
+<section class="wf"><div class="wf-head"><h2>Plant Daily</h2><span class="cron">0 0,4,12 * * *</span></div><div class="chips"><span class="chip">plant_update</span></div></section>
+<section class="wf"><div class="wf-head"><h2>Plant Weekly</h2><span class="cron">0 4 * * 6</span></div><div class="chips"><span class="chip">plant_plan</span><span class="chip">plant_remind</span></div></section>
+<section class="wf"><div class="wf-head"><h2>Cyber Scout</h2><span class="cron">0 1 * * 0</span></div><div class="chips"><span class="chip">weather</span></div></section>
+</main></body></html>
