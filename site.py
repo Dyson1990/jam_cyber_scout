@@ -2,6 +2,7 @@
 
 激活 = 出现在某个 workflow 的 `python main.py <job>` 调用里。
 """
+import ast
 import datetime as _dt
 import re
 from pathlib import Path
@@ -74,6 +75,33 @@ def _workflows() -> list[dict]:
     return out
 
 
+def _app_counts() -> dict[str, int]:
+    """统计每个 app 被 jobs 的 STAGES 引用的次数。"""
+    counts: dict[str, int] = {}
+    for jf in sorted((ROOT / "jobs").glob("*.py")):
+        if jf.name.startswith("_"):
+            continue
+        try:
+            tree = ast.parse(jf.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Assign):
+                continue
+            for t in node.targets:
+                if not (isinstance(t, ast.Name) and t.id == "STAGES"):
+                    continue
+                stages = node.value
+                if not isinstance(stages, (ast.List, ast.Tuple)):
+                    continue
+                for elt in stages.elts:
+                    if isinstance(elt, (ast.Tuple, ast.List)) and elt.elts:
+                        first = elt.elts[0]
+                        if isinstance(first, ast.Constant) and isinstance(first.value, str):
+                            counts[first.value] = counts.get(first.value, 0) + 1
+    return dict(sorted(counts.items(), key=lambda kv: -kv[1]))
+
+
 def _render(ws: list[dict]) -> str:
     n_jobs = sum(len(w["jobs"]) for w in ws)
     n_cron = sum(1 for w in ws if w["cron"] != "—")
@@ -90,6 +118,15 @@ def _render(ws: list[dict]) -> str:
             f'<div class="tags">{tags}</div></article>'
         )
     body = "\n".join(cards) if cards else '<p class="empty">暂无激活的 job</p>'
+
+    counts = _app_counts()
+    max_c = max(counts.values()) if counts else 1
+    bars = "".join(
+        f'<div class="bar-row"><span class="bar-label">{name}</span>'
+        f'<div class="bar-track"><div class="bar-fill" style="width:{c / max_c * 100:.1f}%"></div></div>'
+        f'<span class="bar-val">{c}</span></div>'
+        for name, c in counts.items()
+    )
 
     stats = [
         ("激活 Job", n_jobs),
@@ -160,6 +197,14 @@ main {{ max-width:960px; margin:0 auto; padding:56px 20px 64px; }}
 .tag {{ color:var(--muted); background:var(--panel2); border-radius:6px; padding:3px 10px; font-size:11px; }}
 .empty {{ color:var(--muted); }}
 
+/* 条形图 */
+.chart {{ background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:24px; margin-top:18px; }}
+.bar-row {{ display:grid; grid-template-columns:130px 1fr 32px; align-items:center; gap:14px; margin:12px 0; }}
+.bar-label {{ font-size:13px; color:var(--fg); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }}
+.bar-track {{ background:var(--panel2); border-radius:999px; height:20px; overflow:hidden; }}
+.bar-fill {{ height:100%; border-radius:999px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }}
+.bar-val {{ font-size:12px; color:var(--muted); text-align:right; }}
+
 /* 页脚 */
 footer {{ border-top:1px solid var(--line); padding:28px; text-align:center; color:var(--muted); font-size:12px; }}
 footer span {{ margin:0 10px; }}
@@ -189,6 +234,12 @@ footer span {{ margin:0 10px; }}
     <span class="hint">时间均为北京时间（UTC+8）</span>
   </div>
   <div class="grid">{body}</div>
+
+  <div class="sec-head" style="margin-top:48px">
+    <h2>App 引用次数</h2>
+    <span class="hint">每个 App 被各 job 的 STAGES 引用的次数</span>
+  </div>
+  <div class="chart">{bars}</div>
 </main>
 
 <footer>
