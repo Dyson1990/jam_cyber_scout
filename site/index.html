@@ -55,6 +55,14 @@ main { max-width:960px; margin:0 auto; padding:56px 20px 64px; }
 .tag { color:var(--muted); background:var(--panel2); border-radius:6px; padding:3px 10px; font-size:11px; }
 .empty { color:var(--muted); }
 
+/* 条形图 */
+.chart { background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:24px; margin-top:18px; }
+.bar-row { display:grid; grid-template-columns:130px 1fr 32px; align-items:center; gap:14px; margin:12px 0; }
+.bar-label { font-size:13px; color:var(--fg); text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bar-track { background:var(--panel2); border-radius:999px; height:20px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+.bar-val { font-size:12px; color:var(--muted); text-align:right; }
+
 /* 页脚 */
 footer { border-top:1px solid var(--line); padding:28px; text-align:center; color:var(--muted); font-size:12px; }
 footer span { margin:0 10px; }
@@ -86,9 +94,15 @@ footer span { margin:0 10px; }
   <div class="grid"><article class="card"><div class="card-top"><h3>Plant Daily</h3><span class="badge">活跃</span></div><div class="cron">🕐 每天 08:00 / 12:00 / 20:00</div><div class="chips"><span class="chip">plant_update</span></div><div class="tags"><span class="tag">定时</span><span class="tag">手动</span></div></article>
 <article class="card"><div class="card-top"><h3>Plant Weekly</h3><span class="badge">活跃</span></div><div class="cron">🕐 每周六 12:00</div><div class="chips"><span class="chip">plant_plan</span><span class="chip">plant_remind</span></div><div class="tags"><span class="tag">定时</span><span class="tag">手动</span></div></article>
 <article class="card"><div class="card-top"><h3>Cyber Scout</h3><span class="badge">活跃</span></div><div class="cron">🕐 每周日 09:00</div><div class="chips"><span class="chip">weather</span></div><div class="tags"><span class="tag">定时</span><span class="tag">手动</span></div></article></div>
+
+  <div class="sec-head" style="margin-top:48px">
+    <h2>App 引用次数</h2>
+    <span class="hint">每个 App 被各 job 的 STAGES 引用的次数</span>
+  </div>
+  <div class="chart"><div class="bar-row"><span class="bar-label">feishu</span><div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div><span class="bar-val">8</span></div><div class="bar-row"><span class="bar-label">plant_keeper</span><div class="bar-track"><div class="bar-fill" style="width:75.0%"></div></div><span class="bar-val">6</span></div><div class="bar-row"><span class="bar-label">deepseek</span><div class="bar-track"><div class="bar-fill" style="width:25.0%"></div></div><span class="bar-val">2</span></div></div>
 </main>
 
 <footer>
-  <span>© Cyber Scout</span><span>更新于 2026-10-04 23:09</span><span>Powered by GitHub Actions</span>
+  <span>© Cyber Scout</span><span>更新于 2026-10-04 23:16</span><span>Powered by GitHub Actions</span>
 </footer>
 </body></html>
