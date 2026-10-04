@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from appflow.item import Item
 
 # 业务参数
-BITABLE_APP_TOKEN = "GS1UbFkgEadpuesRV8VcDnqOnxg"
+FEISHU_PLANT_APP_TOKEN = "GS1UbFkgEadpuesRV8VcDnqOnxg"
 
 
 @dataclass
@@ -22,9 +22,9 @@ class PlanResp(Item):
 
 
 STAGES = [
-    ("feishu", ["bitable", "load", BITABLE_APP_TOKEN], None),
+    ("feishu", ["bitable", "load", FEISHU_PLANT_APP_TOKEN], None),
     ("plant_keeper", ["plan"], PlanReq),
     ("deepseek", [], PlanResp),
     ("plant_keeper", ["apply_plan"], None),
-    ("feishu", ["bitable", "save", BITABLE_APP_TOKEN], None),
+    ("feishu", ["bitable", "save", FEISHU_PLANT_APP_TOKEN], None),
 ]

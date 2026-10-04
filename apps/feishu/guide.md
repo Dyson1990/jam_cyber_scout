@@ -12,4 +12,4 @@
 输出: `{op:"sent",ref,message_id}` 或 `{op:"checked",ref,reacted,action_time}`
 
 ## 环境变量
-`FEISHU_WEBHOOK`（webhook 地址）、`FEISHU_APP_ID` / `FEISHU_APP_SECRET`（自建应用）
+`FEISHU_WEBHOOK`（webhook 地址）、`FEISHU_MSG_APP_ID` / `FEISHU_MSG_APP_SECRET`（自建应用）

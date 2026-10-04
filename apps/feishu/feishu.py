@@ -7,7 +7,7 @@
         → 输出 {"op":"checked","ref":"<id>","reacted":bool,"action_time":毫秒}
 
 列群: python -m apps.feishu.feishu --list-chats
-环境变量: FEISHU_APP_ID / FEISHU_APP_SECRET
+环境变量: FEISHU_MSG_APP_ID / FEISHU_MSG_APP_SECRET
 """
 
 import json
@@ -28,10 +28,10 @@ def get_token() -> str:
     now = time.time()
     if _cache["token"] and now < _cache["expire"]:
         return _cache["token"]
-    app_id = os.getenv("FEISHU_APP_ID", "")
-    app_secret = os.getenv("FEISHU_APP_SECRET", "")
+    app_id = os.getenv("FEISHU_MSG_APP_ID", "")
+    app_secret = os.getenv("FEISHU_MSG_APP_SECRET", "")
     if not app_id or not app_secret:
-        raise RuntimeError("缺少 FEISHU_APP_ID / FEISHU_APP_SECRET 环境变量")
+        raise RuntimeError("缺少 FEISHU_MSG_APP_ID / FEISHU_MSG_APP_SECRET 环境变量")
     resp = requests.post(TOKEN_URL, json={"app_id": app_id, "app_secret": app_secret}, timeout=15)
     data = resp.json()
     if data.get("code") != 0:
