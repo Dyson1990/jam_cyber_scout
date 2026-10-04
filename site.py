@@ -76,8 +76,12 @@ def _workflows() -> list[dict]:
 
 
 def _app_counts() -> dict[str, int]:
-    """统计每个 app 被 jobs 的 STAGES 引用的次数。"""
-    counts: dict[str, int] = {}
+    """统计每个 app（apps/ 下含 entry.py 的目录）被 jobs 的 STAGES 引用的次数。"""
+    counts: dict[str, int] = {
+        p.parent.name: 0
+        for p in (ROOT / "apps").glob("*/entry.py")
+        if not p.parent.name.startswith("_")
+    }
     for jf in sorted((ROOT / "jobs").glob("*.py")):
         if jf.name.startswith("_"):
             continue
@@ -99,7 +103,7 @@ def _app_counts() -> dict[str, int]:
                         first = elt.elts[0]
                         if isinstance(first, ast.Constant) and isinstance(first.value, str):
                             counts[first.value] = counts.get(first.value, 0) + 1
-    return dict(sorted(counts.items(), key=lambda kv: -kv[1]))
+    return dict(sorted(counts.items(), key=lambda kv: (-kv[1], kv[0])))
 
 
 def _render(ws: list[dict]) -> str:
