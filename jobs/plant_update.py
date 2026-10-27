@@ -1,4 +1,4 @@
-"""plant_update 业务流：检查待确认植物 → feishu 查表情 → 回写浇水时间。"""
+"""plant_update 业务流：检查待确认植物/浇水器 → feishu 查表情 → 回写浇水/施肥时间。"""
 
 from dataclasses import dataclass
 
