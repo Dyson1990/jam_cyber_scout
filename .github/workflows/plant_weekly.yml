@@ -33,8 +33,8 @@ jobs:
       - name: Run plant_plan
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          BITABLE_APP_ID: ${{ secrets.BITABLE_APP_ID }}
-          BITABLE_APP_SECRET: ${{ secrets.BITABLE_APP_SECRET }}
+          FEISHU_BITABLE_APP_ID: ${{ secrets.FEISHU_BITABLE_APP_ID }}
+          FEISHU_BITABLE_APP_SECRET: ${{ secrets.FEISHU_BITABLE_APP_SECRET }}
         run: python main.py plant_plan
 
       - name: Commit state
@@ -65,10 +65,10 @@ jobs:
 
       - name: Run plant_remind
         env:
-          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
-          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
-          BITABLE_APP_ID: ${{ secrets.BITABLE_APP_ID }}
-          BITABLE_APP_SECRET: ${{ secrets.BITABLE_APP_SECRET }}
+          FEISHU_MSG_APP_ID: ${{ secrets.FEISHU_MSG_APP_ID }}
+          FEISHU_MSG_APP_SECRET: ${{ secrets.FEISHU_MSG_APP_SECRET }}
+          FEISHU_BITABLE_APP_ID: ${{ secrets.FEISHU_BITABLE_APP_ID }}
+          FEISHU_BITABLE_APP_SECRET: ${{ secrets.FEISHU_BITABLE_APP_SECRET }}
         run: python main.py plant_remind
 
       - name: Commit state

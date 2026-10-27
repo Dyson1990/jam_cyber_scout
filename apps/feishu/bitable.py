@@ -4,7 +4,7 @@ load: 读「状态」表整份 JSON 回写 state.json（表为空则保留现有
 save: 把 state.json 整份写进「状态」表，再刷新 4 张只读视图（植物/肥料/设备/历史）。
 视图幂等：先清空再重建，保证与 state.json 完全一致。
 
-环境变量: BITABLE_APP_ID / BITABLE_APP_SECRET（专用新应用）
+环境变量: FEISHU_BITABLE_APP_ID / FEISHU_BITABLE_APP_SECRET（多维表格应用）
 参数: app_token 由 job 经命令行传入（["bitable","load","<app_token>"] / ["bitable","save","<app_token>"]）
 """
 
@@ -77,10 +77,10 @@ TABLES = {
 
 
 def _get_token() -> str:
-    app_id = os.getenv("BITABLE_APP_ID", "")
-    app_secret = os.getenv("BITABLE_APP_SECRET", "")
+    app_id = os.getenv("FEISHU_BITABLE_APP_ID", "")
+    app_secret = os.getenv("FEISHU_BITABLE_APP_SECRET", "")
     if not app_id or not app_secret:
-        raise RuntimeError("缺少 BITABLE_APP_ID / BITABLE_APP_SECRET 环境变量")
+        raise RuntimeError("缺少 FEISHU_BITABLE_APP_ID / FEISHU_BITABLE_APP_SECRET 环境变量")
     resp = requests.post(TOKEN_URL, json={"app_id": app_id, "app_secret": app_secret}, timeout=15)
     data = resp.json()
     if data.get("code") != 0:
