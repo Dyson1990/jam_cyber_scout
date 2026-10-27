@@ -71,7 +71,8 @@ def _github_commits(repo, branch, since_ms, gh_token):
         params["since"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(since_ms / 1000))
     d = _http("GET", "https://api.github.com/repos/" + repo + "/commits",
               token=gh_token, params=params)
-    if d.get("code") == 404:
+    # GitHub /commits 200 返回 JSON 数组(list)，仅 404 时 _http 返回 {"code": 404} 字典
+    if isinstance(d, dict) and d.get("code") == 404:
         return []
     return [c["commit"]["message"] for c in d if c.get("commit", {}).get("message")]
 
